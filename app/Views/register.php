@@ -10,13 +10,11 @@
     <link rel="stylesheet" href="<?= base_url('styles.css'); ?>">
 
     <style>
-        /* Placeholder metninin rengini belirlemek için stil */
         input::placeholder,
         textarea::placeholder {
-            color: black; /* Placeholder rengini siyah yapar */
-            opacity: 1; /* Placeholder metninin görünürlüğünü artırır */
+            color: black;
+            opacity: 1;
         }
-
         input::-webkit-input-placeholder {
             color: black;
         }
@@ -31,7 +29,7 @@
         }
     </style>
 
-    <title>chronocraft</title>
+    <title>Chronocraft - Kayıt Ol</title>
 </head>
 <body>
 <nav>
@@ -49,42 +47,54 @@
         <li><a href="<?= base_url('about'); ?>">Hakkımızda</a></li>
         <li><a href="#contact">İletişim</a></li>
     </ul>
-    <div class="nav__search" id="nav-search">
-        <input type="text" placeholder="Search" />
-        <span><i class="ri-search-2-line"></i></span>
-    </div>
 </nav>
 
 <section class="section__container client__container">
     <div class="client__content">
         <div class="imgcontainer">
-            <h2 class="section__header">
-                Zamana değer verenlere özel ayrıcalıklar
-            </h2>
+            <h2 class="section__header">Zamana değer verenlere özel ayrıcalıklar</h2>
         </div>
 
         <div class="swiper">
-            <form>
-                <h1 class="h3 mb-3 fw-normal">
-                    Chronocraft ile zaman serüvenine katıl!
-                </h1>
+            <form action="<?= base_url('register'); ?>" method="post">
+                <h1 class="h3 mb-3 fw-normal">Chronocraft ile zaman serüvenine katıl!</h1>
+
+                <!-- Hata Mesajları -->
+                <?php if (session()->has('errors')): ?>
+                    <div class="alert alert-danger">
+                        <ul>
+                            <?php foreach (session('errors') as $error): ?>
+                                <li><?= esc($error) ?></li>
+                            <?php endforeach; ?>
+                        </ul>
+                    </div>
+                <?php endif; ?>
+
+                <!-- Başarı Mesajı -->
+                <?php if (session()->getFlashdata('success')): ?>
+                    <div class="alert alert-success">
+                        <?= session()->getFlashdata('success'); ?>
+                    </div>
+                <?php endif; ?>
 
                 <div class="form-floating">
-                    <input type="email" class="form-control" id="floatingInput" placeholder="Email" />
-                    <label for="floatingInput">Email</label>
+                    <input type="text" class="form-control" id="name" name="name" placeholder="Ad" required />
+                    <label for="name">Ad</label>
                 </div>
                 <div class="form-floating mt-2">
-                    <input type="password" class="form-control" id="floatingPassword" placeholder="Password" />
-                    <label for="floatingPassword">Password</label>
+                    <input type="email" class="form-control" id="email" name="email" placeholder="Email" required />
+                    <label for="email">Email</label>
                 </div>
                 <div class="form-floating mt-2">
-                    <input type="password" class="form-control" id="floatingPasswordConfirm" placeholder="Password Confirm" />
-                    <label for="floatingPasswordConfirm">Password Confirm</label>
+                    <input type="password" class="form-control" id="password" name="password" placeholder="Password" required />
+                    <label for="password">Şifre</label>
+                </div>
+                <div class="form-floating mt-2">
+                    <input type="password" class="form-control" id="passwordConfirm" name="password_confirm" placeholder="Password Confirm" required />
+                    <label for="passwordConfirm">Şifre Tekrar</label>
                 </div>
 
-                <button class="btn btn-primary mt-4 w-100 py-2" type="submit">
-                    Kayıt Ol!
-                </button>
+                <button class="btn btn-primary mt-4 w-100 py-2" type="submit">Kayıt Ol!</button>
             </form>
         </div>
     </div>
@@ -133,9 +143,7 @@
             </ul>
         </div>
     </div>
-    <div class="footer__bar">
-        Copyright © 2024 chronocraft. Tüm Haklarımız Saklıdır.
-    </div>
+    <div class="footer__bar">Copyright © 2024 chronocraft. Tüm Haklarımız Saklıdır.</div>
 </footer>
 
 <script src="https://unpkg.com/scrollreveal"></script>

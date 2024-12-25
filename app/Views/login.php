@@ -6,10 +6,9 @@
     <link href="https://cdn.jsdelivr.net/npm/remixicon@4.3.0/fonts/remixicon.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous" />
-    <link rel="stylesheet" href="<?= base_url('styles.css'); ?>">
     <link rel="icon" type="image/x-icon" href="<?= base_url('saat.png'); ?>">
-
-    <title>Chronocraft - Ürünler</title>
+    <link rel="stylesheet" href="<?= base_url('styles.css'); ?>">
+    <title>Chronocraft - Giriş Yap</title>
 </head>
 <body>
 <nav>
@@ -26,21 +25,6 @@
         <li><a href="<?= base_url('products'); ?>">Mağaza</a></li>
         <li><a href="<?= base_url('about'); ?>">Hakkımızda</a></li>
         <li><a href="#contact">İletişim</a></li>
-        <?php if (session()->get('user')): ?>
-            <li class="dropdown">
-                <a href="#" class="dropdown-toggle" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-                    Hoşgeldiniz, <?= session()->get('user')['name']; ?>
-                </a>
-                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                    <?php if (session()->get('user')['role'] === 'admin'): ?>
-                        <li><a class="dropdown-item" href="<?= base_url('admin'); ?>">Yönetim Paneli</a></li>
-                    <?php endif; ?>
-                    <li><a class="dropdown-item" href="<?= base_url('logout?redirect=' . current_url()); ?>">Çıkış Yap</a></li>
-                </ul>
-            </li>
-        <?php else: ?>
-            <li><a href="<?= base_url('login'); ?>">Giriş Yap</a></li>
-        <?php endif; ?>
     </ul>
     <div class="nav__search" id="nav-search">
         <input type="text" placeholder="Search" />
@@ -48,18 +32,60 @@
     </div>
 </nav>
 
-<section class="section__container product__container" id="product">
-    <h2 class="section__header">Ürünlerimiz</h2>
-    <div class="product__grid">
-        <?php foreach ($products as $product): ?>
-            <div class="product__card">
-                <h3><a href="<?= base_url('products/' . $product['slug']); ?>"><?= $product['product_code']; ?></a></h3> <!-- Slug eklendi -->
-                <p><?= word_limiter($product['description'] ?? 'Açıklama bulunmamaktadır.', 20); ?></p> <!-- Description sınırlı -->
-                <span>₺<?= number_format($product['price'], 2); ?></span>
-                <img src="<?= base_url('images/' . $product['image']); ?>" alt="<?= $product['product_code']; ?>" />
-                <button type="button" class="btn btn-light">Sepete Ekle</button>
-            </div>
-        <?php endforeach; ?>
+<section class="section__container client__container">
+    <div class="client__content">
+        <div class="imgcontainer">
+            <h2 class="section__header">Zamana değer verenlere özel ayrıcalıklar</h2>
+        </div>
+
+        <div class="swiper">
+            <form action="<?= base_url('login'); ?>" method="post">
+            <h1 class="h3 mb-3 fw-normal">Chronocraft ile zaman serüvenine katıl!</h1>
+
+                <?php if (session()->getFlashdata('error')): ?>
+                    <div class="alert alert-danger">
+                        <?= session()->getFlashdata('error'); ?>
+                    </div>
+                <?php endif; ?>
+
+                <div class="form-floating">
+                    <input
+                            type="email"
+                            class="form-control"
+                            id="floatingInput"
+                            name="email"
+                            placeholder="Email"
+                            required
+                    />
+                    <label for="floatingInput">Email</label>
+                </div>
+                <div class="form-floating mt-2">
+                    <input
+                            type="password"
+                            class="form-control"
+                            id="floatingPassword"
+                            name="password"
+                            placeholder="Password"
+                            required
+                    />
+                    <label for="floatingPassword">Password</label>
+                </div>
+
+                <div class="form-check text-start my-3">
+                    <input
+                            class="form-check-input"
+                            type="checkbox"
+                            value="remember-me"
+                            id="flexCheckDefault"
+                    />
+                    <label class="form-check-label" for="flexCheckDefault">Beni hatırla</label>
+                </div>
+                <button class="btn btn-primary w-100 py-2" type="submit">Giriş Yap!</button>
+                <p class="mt-4 text-body-dark">
+                    <a style="text-decoration: none; color: black" href="<?= base_url('register'); ?>">Kayıt olmak için tıkla!</a>
+                </p>
+            </form>
+        </div>
     </div>
 </section>
 
@@ -67,7 +93,7 @@
     <div class="section__container footer__container">
         <div class="footer__col">
             <div class="footer__logo">
-                <a href="<?= base_url('/'); ?>" class="logo">chronocraft</a>
+                <a href="<?= base_url(); ?>" class="logo">chronocraft</a>
             </div>
             <p>
                 Zarafeti ve fonksiyonelliği bir araya getiren saatlerle zamanınızı yeniden keşfedin.
@@ -111,8 +137,7 @@
     </div>
 </footer>
 
-<!-- Projeye özel CSS ve JS -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://unpkg.com/scrollreveal"></script>
 <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="<?= base_url('main.js'); ?>"></script>
